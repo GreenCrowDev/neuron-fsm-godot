@@ -33,7 +33,19 @@
 *.out
 *.app
 
+# Scons.gitignore
+
+# for projects that use SCons for building: http://http://www.scons.org/
+.sconsign.dblite
+
+# When configure fails, SCons outputs these
+config.log
+.sconf_temp
+
 # Custom
 
 .vscode
 build
+
+# Compiled files
+*.exp
