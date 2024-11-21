@@ -49,3 +49,5 @@ build
 
 # Compiled files
 *.exp
+*.pdb
+*.ilk

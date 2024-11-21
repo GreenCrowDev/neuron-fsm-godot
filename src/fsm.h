@@ -1,22 +1,29 @@
 #ifndef NEURON_FSM_GODOT_FSM_H
 #define NEURON_FSM_GODOT_FSM_H
 
+#include "../../../libs/neuron-fsm/include/neuron_fsm/fsm.h"
 #include <godot_cpp/classes/ref_counted.hpp>
 
-namespace godot::neuron_fsm {
+namespace ublas = neuron_fsm;
+
+namespace godot::neuron_fsm_godot {
 
 class FSM : public RefCounted {
-    GDCLASS(FSM, RefCounted);
+	GDCLASS(FSM, RefCounted);
 
 private:
+	ublas::FSM *fsm;
 
 protected:
 	static void _bind_methods();
 
 public:
+	FSM();
+	~FSM();
 
+	int test_func() const;
 };
 
-}
+} //namespace godot::neuron_fsm_godot
 
 #endif // NEURON_FSM_GODOT_FSM_H
