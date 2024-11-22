@@ -15,6 +15,5 @@ FSM::~FSM() {
 }
 
 int FSM::test_func() const {
-	// return fsm->get_state_count();
-	return 0;
+	return fsm->get_state_count();
 }

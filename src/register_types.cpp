@@ -13,7 +13,7 @@ using namespace godot;
 using namespace godot::neuron_fsm_godot;
 
 void initialize_neuron_fsm_module(ModuleInitializationLevel p_level) {
-	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE) {
+	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE || p_level == MODULE_INITIALIZATION_LEVEL_EDITOR) {
 		GDREGISTER_CLASS(State);
 		GDREGISTER_CLASS(FSM);
 	}
