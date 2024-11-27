@@ -14,6 +14,11 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if(fsm):
+		# print("fsm")
+		# print(fsm.test_func())
+		fsm.tick()
+		pass
 	pass
 
 func _do_button():
@@ -30,25 +35,31 @@ func _init():
 	
 	# 1. Define states.
 	
-	var green_state: StateBehaviour = StateBehaviour.new()
-	# Use state signals and lambas to define state functions.
-	green_state.on_enter.connect(func(): print("Green!"))
+	var green_behaviour: StateBehaviour = StateBehaviour.new()
+	green_behaviour.on_process.connect(func(): print("Green!"))
 	
-	var yellow_state: StateBehaviour = StateBehaviour.new()
-	var red_state: StateBehaviour = StateBehaviour.new()
+	var yellow_behaviour: StateBehaviour = StateBehaviour.new()
+	yellow_behaviour.on_process.connect(func(): print("Yellow!"))
+	
+	var red_behaviour: StateBehaviour = StateBehaviour.new()
+	red_behaviour.on_process.connect(func(): print("Red!"))
 	
 	# 2. Define states transitions.
 	
-	var green_state_pair = StateConnections.new(green_state)
-	var yellow_state_pair = StateConnections.new(yellow_state)
-	var red_state_pair = StateConnections.new(red_state)
+	var green_state = State.new()
+	var yellow_state = State.new()
+	var red_state = State.new()
 	
-	green_state_connections.add_connection(gsevent1, yellow_state_pair)
+	green_state.set_behaviour(green_behaviour)
+	green_state.add_connection(func(): true, yellow_state)
 	
-	yellow_state_connections.add_connection(ysevent2, red_state_pair)
+	yellow_state.set_behaviour(yellow_behaviour)
+	yellow_state.add_connection(func(): true, red_state)
 	
-	red_state_connections.add_connection(rsevent3, green_state_pair)
+	red_state.set_behaviour(red_behaviour)
+	red_state.add_connection(func(): true, green_state)
 	
 	# 3. Initialize finite state machine.
 	
-	fsm = FSM.new(green_state_pair)
+	fsm = FSM.new()
+	fsm.set_state(green_state)

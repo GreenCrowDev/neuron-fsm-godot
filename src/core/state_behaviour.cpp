@@ -4,6 +4,8 @@ using namespace godot::neuron_fsm_godot;
 
 void StateBehaviour::_bind_methods() {
 	ADD_SIGNAL(MethodInfo("on_enter"));
+	ADD_SIGNAL(MethodInfo("on_process"));
+	ADD_SIGNAL(MethodInfo("on_exit"));
 }
 
 StateBehaviour::StateBehaviour() {

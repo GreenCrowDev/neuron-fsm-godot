@@ -9,6 +9,8 @@ namespace ublas = neuron_fsm;
 
 namespace godot::neuron_fsm_godot {
 
+class State;
+
 class Connection : public RefCounted {
 	GDCLASS(Connection, RefCounted);
 
@@ -22,8 +24,11 @@ protected:
 	static void _bind_methods();
 
 public:
-	void set_event(Callable p_callback);
-	void set_target(Ref<State> p_target);
+	Connection();
+	Connection(const Callable &p_event, const Ref<State> &p_target);
+
+	void set_event(const Callable &p_event);
+	void set_target(const Ref<State> &p_target);
 };
 
 } // namespace godot::neuron_fsm_godot
