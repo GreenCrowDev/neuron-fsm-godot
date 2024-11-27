@@ -22,6 +22,7 @@ env_fsm.Append(LIBS=["neuron_fsm"])
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env_fsm.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
+sources += Glob("src/core/*.cpp")
 
 if env_fsm["platform"] == "macos":
     library = env_fsm.SharedLibrary(

@@ -30,12 +30,12 @@ func _init():
 	
 	# 1. Define states.
 	
-	var green_state: State = State.new()
+	var green_state: StateBehaviour = StateBehaviour.new()
 	# Use state signals and lambas to define state functions.
 	green_state.on_enter.connect(func(): print("Green!"))
 	
-	var yellow_state: State = State.new()
-	var red_state: State = State.new()
+	var yellow_state: StateBehaviour = StateBehaviour.new()
+	var red_state: StateBehaviour = StateBehaviour.new()
 	
 	# 2. Define states transitions.
 	
