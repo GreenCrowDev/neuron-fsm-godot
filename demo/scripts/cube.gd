@@ -3,8 +3,10 @@ extends MeshInstance3D
 
 var fsm: FSM
 
-@export var button: bool:
+signal _do_make_yellow
+@export var make_yellow: bool:
 	set(value):
+		_do_make_yellow.emit()
 		_do_button()
 
 # Called when the node enters the scene tree for the first time.
@@ -15,18 +17,14 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if(fsm):
-		# print("fsm")
-		# print(fsm.test_func())
-		fsm.tick()
+		# fsm.tick()
 		pass
 	pass
 
 func _do_button():
+	print(make_yellow)
 	fsm = FSM.new()
 	print(fsm.test_func())
-
-# States declaration.
-enum ColorStates {GREEN, YELLOW, RED}
 
 class StateConnections:
 	var i
@@ -51,7 +49,7 @@ func _init():
 	var red_state = State.new()
 	
 	green_state.set_behaviour(green_behaviour)
-	green_state.add_connection(func(): true, yellow_state)
+	green_state.add_signal_connection(_do_make_yellow, yellow_state)
 	
 	yellow_state.set_behaviour(yellow_behaviour)
 	yellow_state.add_connection(func(): true, red_state)

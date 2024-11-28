@@ -30,8 +30,6 @@ public:
 
 	std::shared_ptr<ublas::State> get_state() const;
 	void set_behaviour(const Ref<StateBehaviour> &p_behaviour);
-	void add_connection(const Ref<Connection> &p_connection);
-	void add_connection(const Callable &p_event, const Ref<State> &p_target);
 };
 
 } // namespace godot::neuron_fsm_godot

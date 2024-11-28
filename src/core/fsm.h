@@ -13,23 +13,18 @@ class FSM : public RefCounted {
 	GDCLASS(FSM, RefCounted);
 
 private:
-	std::shared_ptr<ublas::FSM> fsm;
-	Ref<State> current_state;
+	std::unique_ptr<ublas::FSM> fsm;
 
 protected:
 	static void _bind_methods();
 
 public:
 	FSM();
-	FSM(Ref<State> p_start_state);
-
-	void _notification(int p_what);
-	void _process(double p_delta);
 
 	void tick() const;
 
-	void set_state(const Ref<State> &p_state);
-	int test_func() const;
+	void register_state(const StringName &p_name, const Ref<State> &p_state);
+	void add_signal_connection(const Signal &p_signal, const Ref<State> &p_target);
 };
 
 } // namespace godot::neuron_fsm_godot
