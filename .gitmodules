@@ -2,3 +2,6 @@
 	path = godot-cpp
 	url = https://github.com/godotengine/godot-cpp
 	branch = 4.3
+[submodule "thirdparty/neuron-fsm"]
+	path = thirdparty/neuron-fsm
+	url = https://github.com/GreenCrowDev/neuron-fsm.git
