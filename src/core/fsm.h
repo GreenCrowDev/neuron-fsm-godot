@@ -1,32 +1,34 @@
 #ifndef NEURON_FSM_GODOT_FSM_H
 #define NEURON_FSM_GODOT_FSM_H
 
-#include "../../../../libs/neuron-fsm/include/neuron_fsm/fsm.h"
 #include "state.h"
+#include <neuron_fsm/fsm.h>
 #include <godot_cpp/classes/ref_counted.hpp>
+#include <memory>
 
-namespace ublas = neuron_fsm;
+namespace nfsm = neuron_fsm;
 
-namespace godot::neuron_fsm_godot {
+namespace godot::nfsmg {
 
 class FSM : public RefCounted {
 	GDCLASS(FSM, RefCounted);
 
-private:
-	std::unique_ptr<ublas::FSM> fsm;
+public:
+	void register_state(const String &p_name, const Ref<FSMState> &p_state);
+	void set_starting_state(const String &p_name);
+	void add_transition(const String &p_state, const String &p_event, const String &p_target);
+
+	void tick() const;
+	void lock();
+	void start();
 
 protected:
 	static void _bind_methods();
 
-public:
-	FSM();
-
-	void tick() const;
-
-	void register_state(const StringName &p_name, const Ref<State> &p_state);
-	void add_signal_connection(const Signal &p_signal, const Ref<State> &p_target);
+private:
+	nfsm::FSM fsm;
 };
 
-} // namespace godot::neuron_fsm_godot
+} // namespace godot::nfsmg
 
 #endif // NEURON_FSM_GODOT_FSM_H

@@ -6,20 +6,15 @@
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
 
-#include "core/connection.h"
 #include "core/fsm.h"
 #include "core/state.h"
-#include "core/state_behaviour.h"
 
-using namespace godot;
-using namespace godot::neuron_fsm_godot;
+using namespace godot::nfsmg;
 
 void initialize_neuron_fsm_module(ModuleInitializationLevel p_level) {
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE) {
-		GDREGISTER_CLASS(Connection);
 		GDREGISTER_CLASS(FSM);
-		GDREGISTER_CLASS(StateBehaviour);
-		GDREGISTER_CLASS(State);
+		GDREGISTER_CLASS(FSMState);
 	}
 }
 

@@ -1,0 +1,51 @@
+# thirdparty/SConstruct
+
+import os
+
+Import("env", "build_type")
+
+# neuron-fsm
+
+nfsm_platform = env["platform"]
+if nfsm_platform == "android":
+    nfsm_platform = "linux"
+elif nfsm_platform == "ios":
+    nfsm_platform = "macOS"
+elif nfsm_platform == "web":
+    nfsm_platform = "linux"
+
+nfsm_arch = env["arch"]
+if nfsm_platform == "macOS":
+    nfsm_arch = ""
+else:
+    nfsm_arch = "-" + nfsm_arch
+
+if env["target"] in ("editor", "template_debug"):
+    env.Append(LIBPATH=["thirdparty/neuron-fsm/bin/Debug"])
+elif env["target"] == "template_release":
+    env.Append(LIBPATH=["thirdparty/neuron-fsm/bin/Release"])
+env.Append(LIBS=["neuron_fsm"])
+env.Append(CPPPATH=["thirdparty/neuron-fsm/include"])
+
+nfsm_build_path = "thirdparty/neuron-fsm/build/neuron-fsm_{}{}/".format(nfsm_platform.lower(), env["arch"])
+
+nfsm_setup_cmd = ""
+nfsm_cmake_gen_cmd = "cmake -S ./neuron-fsm/ --preset={}-{}".format(nfsm_platform, build_type.lower())
+nfsm_cmake_build_cmd = "cmake --build {} --config {}".format(nfsm_build_path, build_type)
+
+if env["platform"] == "windows":
+    vcvarsall_path = r"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat"
+    vcvarsall_path = r"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
+    nfsm_setup_cmd = '"{}" x64'.format(vcvarsall_path)
+    nfsm_setup_cmd = '"{}"'.format(vcvarsall_path)
+    nfsm_setup_cmd = '"{}" -arch=x64 -host_arch=x64'.format(vcvarsall_path)
+
+# env.Execute(nfsm_setup_cmd + " && " + nfsm_cmake_gen_cmd + " && " + nfsm_cmake_build_cmd)
+# env.Execute(nfsm_setup_cmd + " && " + nfsm_cmake_gen_cmd + " && " + nfsm_cmake_build_cmd)
+env.Execute(nfsm_cmake_gen_cmd + " && " + nfsm_cmake_build_cmd)
+# env.Execute("cmd.exe /c {}".format(nfsm_setup_cmd) + " && " + nfsm_cmake_gen_cmd)
+# env.Execute("cmd.exe /c {}".format(nfsm_setup_cmd))
+
+# env.Execute("cmake -S ./neuron-fsm/ --preset=windows-debug && cmake --build thirdparty/neuron-fsm/build/neuron-fsm_windowsx86_64/ --config Debug")
+
+Return("env")

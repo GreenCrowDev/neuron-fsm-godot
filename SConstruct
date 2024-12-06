@@ -4,6 +4,15 @@ import sys
 
 env = SConscript("godot-cpp/SConstruct")
 
+# Set build_type to "Debug" or "Release".
+if env["target"] in ("editor", "template_debug"):
+    build_type = "Debug"
+elif env["target"] == "template_release":
+    build_type = "Release"
+
+# Thirdparty dependencies.
+env = SConscript("thirdparty/SConstruct", exports=["env", "build_type"])
+
 env_fsm = env.Clone()
 
 # For reference:
@@ -14,12 +23,7 @@ env_fsm = env.Clone()
 # - CPPDEFINES are for pre-processor defines
 # - LINKFLAGS are for linking flags
 
-# Hardcoded neuron library path.
-# env_fsm.Append(CPPPATH=[neuron_libpath])
-env_fsm.Append(LIBPATH=["D:/work/green_crow/dev_tools/libs/neuron-fsm/bin/Debug"])
-env_fsm.Append(LIBS=["neuron_fsm"])
-
-# tweak this if you want to use different folders, or more folders, to store your source code in.
+# Tweak this if you want to use different folders, or more folders, to store your source code in.
 env_fsm.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
 sources += Glob("src/core/*.cpp")
