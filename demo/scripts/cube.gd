@@ -15,8 +15,7 @@ signal _do_make_yellow
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("ready")
-	_do_make_yellow.connect(func(): fsm.feed_event(green_to_yellow))
+	_do_make_yellow.connect(func(): fsm.process_event(green_to_yellow))
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,15 +28,15 @@ func _init():
 	
 	var green_state_name: StringName = "Green"
 	var green_state: FSMState = FSMState.new()
-	green_behaviour.on_process.connect(func(): print("Green!"))
+	green_state.on_process.connect(func(): print("Green!"))
 	
 	var yellow_state_name: StringName = "Yellow"
 	var yellow_state: FSMState = FSMState.new()
-	yellow_behaviour.on_process.connect(func(): print("Yellow!"))
+	yellow_state.on_process.connect(func(): print("Yellow!"))
 	
 	var red_state_name: StringName = "Red"
 	var red_state: FSMState = FSMState.new()
-	red_behaviour.on_process.connect(func(): print("Red!"))
+	red_state.on_process.connect(func(): print("Red!"))
 	
 	# 2. Initialize finite state machine.
 	

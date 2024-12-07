@@ -15,12 +15,17 @@ class FSM : public RefCounted {
 
 public:
 	void register_state(const String &p_name, const Ref<FSMState> &p_state);
-	void set_starting_state(const String &p_name);
 	void add_transition(const String &p_state, const String &p_event, const String &p_target);
 
-	void tick() const;
-	void lock();
+	void set_starting_state(const String &p_name);
+
 	void start();
+
+	void lock();
+
+	void tick() const;
+
+	void process_event(const String &p_event);
 
 protected:
 	static void _bind_methods();

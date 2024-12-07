@@ -27,6 +27,8 @@ env_fsm = env.Clone()
 env_fsm.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
 sources += Glob("src/core/*.cpp")
+sources += Glob("src/util/*.cpp")
+sources += Glob("src/util/io/*.cpp")
 
 if env_fsm["platform"] == "macos":
     library = env_fsm.SharedLibrary(
