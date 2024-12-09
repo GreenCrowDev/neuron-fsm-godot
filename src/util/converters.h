@@ -6,7 +6,7 @@
 
 namespace godot::nfsmg {
 
-inline std::string to_std_string(const godot::String &godot_string) {
+inline const std::string to_std_string(const godot::String &godot_string) {
 	return godot_string.ascii().get_data();
 }
 

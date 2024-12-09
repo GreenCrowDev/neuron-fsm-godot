@@ -21,22 +21,22 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if(fsm):
-		fsm.tick()
+		fsm.tick(delta)
 
 func _init():
 	# 1. Define states.
 	
 	var green_state_name: StringName = "Green"
 	var green_state: FSMState = FSMState.new()
-	green_state.on_process.connect(func(): print("Green!"))
+	green_state.on_process.connect(func(double): print("Green!"))
 	
 	var yellow_state_name: StringName = "Yellow"
 	var yellow_state: FSMState = FSMState.new()
-	yellow_state.on_process.connect(func(): print("Yellow!"))
+	yellow_state.on_process.connect(func(double): print("Yellow!"))
 	
 	var red_state_name: StringName = "Red"
 	var red_state: FSMState = FSMState.new()
-	red_state.on_process.connect(func(): print("Red!"))
+	red_state.on_process.connect(func(double): print("Red!"))
 	
 	# 2. Initialize finite state machine.
 	
