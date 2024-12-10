@@ -1,0 +1,27 @@
+name: Save build cache
+description: Save build cache.
+inputs:
+  platform:
+    required: true
+    description: Target platform.
+  arch:
+    required: true
+    description: Target architecture (x86_64, arm64, universal).
+  float-precision:
+    default: 'single'
+    description: Float precision (single or double).
+  build-target-type:
+    default: editor
+    description: Build type (editor, template_debug, template_release).
+  scons-cache:
+    description: The SCons cache path.
+    default: '.scons_cache/'
+
+runs:
+  using: composite
+  steps:
+    - name: Save SCons cache directory
+      uses: actions/cache/save@v4
+      with:
+        path: ${{ github.workspace }}/${{ inputs.scons-cache }}
+        key: ${{ inputs.platform }}_${{ inputs.arch }}_${{ inputs.float-precision }}_${{ inputs.build-target-type }}_cache_${{ github.run_id }}

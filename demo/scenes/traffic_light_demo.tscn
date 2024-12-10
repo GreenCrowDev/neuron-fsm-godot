@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://c7ni54yjrsdl"]
+
+[ext_resource type="PackedScene" uid="uid://n4kmugogpp0g" path="res://entities/traffic_light/traffic_light.blend" id="2_hqyrs"]
+[ext_resource type="Script" path="res://entities/traffic_light/scripts/traffic_light.gd" id="3_4dfa2"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6o2sh"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_tgh6b"]
+sky_material = SubResource("ProceduralSkyMaterial_6o2sh")
+
+[sub_resource type="Environment" id="Environment_0wjwx"]
+background_mode = 2
+sky = SubResource("Sky_tgh6b")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s7v01"]
+albedo_color = Color(0.158472, 0.158472, 0.158472, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tsdb3"]
+material = SubResource("StandardMaterial3D_s7v01")
+size = Vector2(20, 20)
+
+[node name="TrafficLightDemo" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0wjwx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, 0.353553, -0.612372, 2, 2.5, -2)
+projection = 1
+size = 2.4
+
+[node name="Plane" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_tsdb3")
+
+[node name="TrafficLight" parent="." instance=ExtResource("2_hqyrs")]
+script = ExtResource("3_4dfa2")
+
+[node name="Timer" type="Timer" parent="TrafficLight"]
+autostart = true

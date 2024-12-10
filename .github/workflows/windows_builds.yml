@@ -1,0 +1,60 @@
+name: 🪟 Windows Builds
+
+on: [workflow_call]
+
+# Global Settings
+# SCONS_CACHE for windows must be set in the build environment
+env:
+  # Used for the cache key. Add version suffix to force clean build.
+  GODOT_BASE_BRANCH: master
+  SCONSFLAGS: verbose=yes
+  SCONS_CACHE: ${{ github.workspace }}/.scons_cache/
+  SCONS_CACHE_MSVC_CONFIG: true
+
+concurrency:
+  group: ci-${{ github.actor }}-${{ github.head_ref || github.run_number }}-${{ github.ref }}-windows
+  cancel-in-progress: true
+
+jobs:
+  build-windows:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest]
+        target: [editor, template_release]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Restore build cache
+        uses: ./.github/actions/cache-restore
+        with:
+          platform: windows
+          arch: x86_64
+          float-precision: 'single'
+          build-target-type: ${{ matrix.target }}
+        continue-on-error: true
+
+      - name: Setup Python and SCons
+        uses: ./.github/actions/build-deps
+      
+      - name: Compilation
+        uses: ./.github/actions/build-project
+        with:
+          platform: windows
+          arch: x86_64
+          float-precision: 'single'
+          build-target-type: ${{ matrix.target }}
+          scons-flags: ${{ env.SCONSFLAGS }}
+      
+      - name: Save build cache
+        uses: ./.github/actions/cache-save
+        with:
+          platform: windows
+          arch: x86_64
+          float-precision: 'single'
+          build-target-type: ${{ matrix.target }}

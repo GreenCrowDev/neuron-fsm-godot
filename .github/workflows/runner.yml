@@ -1,0 +1,32 @@
+name: CI Runner
+on: [workflow_call, push, pull_request, merge_group]
+
+concurrency:
+  group: ci-${{ github.actor }}-${{ github.head_ref || github.run_number }}-${{ github.ref }}-runner
+  cancel-in-progress: true
+
+jobs:
+
+  # First stage: Static checks (if fail, builds are not started).
+
+  static-checks:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+    name: 📊 Static Checks
+    uses: ./.github/workflows/static_checks.yml
+
+  # Second stage: Builds and tests.
+
+  linux-build:
+    name: 🐧 Linux
+    needs: static-checks
+    uses: ./.github/workflows/linux_builds.yml
+
+  macos-build:
+    name: 🍎 macOS
+    needs: static-checks
+    uses: ./.github/workflows/macos_builds.yml
+
+  windows-build:
+    name: 🪟 Windows
+    needs: static-checks
+    uses: ./.github/workflows/windows_builds.yml

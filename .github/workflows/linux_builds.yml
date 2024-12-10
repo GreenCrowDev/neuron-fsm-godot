@@ -1,0 +1,59 @@
+name: 🐧 Linux Builds
+
+on: [workflow_call]
+
+# Global Settings
+env:
+  # Used for the cache key. Add version suffix to force clean build.
+  GODOT_BASE_BRANCH: master
+  SCONSFLAGS: verbose=yes
+  SCONS_CACHE: ${{ github.workspace }}/.scons_cache/
+
+concurrency:
+  group: ci-${{ github.actor }}-${{ github.head_ref || github.run_number }}-${{ github.ref }}-linux
+  cancel-in-progress: true
+
+jobs:
+  build-linux:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        target: [editor, template_release]
+        cpp_compiler: [g++, llvm]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Restore build cache
+        uses: ./.github/actions/cache-restore
+        with:
+          platform: linux
+          arch: x86_64
+          float-precision: 'single'
+          build-target-type: ${{ matrix.target }}
+        continue-on-error: true
+
+      - name: Setup Python and SCons
+        uses: ./.github/actions/build-deps
+      
+      - name: Compilation
+        uses: ./.github/actions/build-project
+        with:
+          platform: linux
+          arch: x86_64
+          float-precision: 'single'
+          build-target-type: ${{ matrix.target }}
+          scons-flags: ${{ env.SCONSFLAGS }} ${{ matrix.cpp_compiler == 'llvm' && 'use_llvm=yes' || ''}}
+
+      - name: Save build cache
+        uses: ./.github/actions/cache-save
+        with:
+          platform: linux
+          arch: x86_64
+          float-precision: 'single'
+          build-target-type: ${{ matrix.target }}

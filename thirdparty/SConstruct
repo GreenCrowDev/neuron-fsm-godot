@@ -1,0 +1,41 @@
+# thirdparty/SConstruct
+
+import os
+
+Import("env", "build_type")
+
+# neuron-fsm
+
+nfsm_platform = env["platform"]
+if nfsm_platform == "android":
+    nfsm_platform = "linux"
+elif nfsm_platform == "ios":
+    nfsm_platform = "macos"
+elif nfsm_platform == "web":
+    nfsm_platform = "linux"
+
+nfsm_arch = env["arch"]
+if nfsm_platform == "macos":
+    nfsm_arch = "universal"
+
+if env["target"] in ("editor", "template_debug"):
+    env.Append(LIBPATH=["thirdparty/neuron-fsm/bin/Debug"])
+elif env["target"] == "template_release":
+    env.Append(LIBPATH=["thirdparty/neuron-fsm/bin/Release"])
+env.Append(LIBS=["neuron_fsm"])
+env.Append(CPPPATH=["thirdparty/neuron-fsm/include"])
+
+nfsm_build_path = "neuron-fsm/build/neuron-fsm_{}-{}/".format(nfsm_platform.lower(), nfsm_arch)
+
+nfsm_cmake_gen_cmd = "cmake -S ./neuron-fsm/ --preset={}-{}".format(nfsm_platform, build_type.lower())
+nfsm_cmake_build_cmd = "cmake --build {} --config {}".format(nfsm_build_path, build_type)
+
+if nfsm_platform == "windows":
+    from subprocess import call
+    call(nfsm_cmake_gen_cmd)
+    call(nfsm_cmake_build_cmd)
+elif nfsm_platform in ("linux", "macos"):
+    env.Execute(nfsm_cmake_gen_cmd)
+    env.Execute(nfsm_cmake_build_cmd)
+
+Return("env")

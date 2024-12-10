@@ -1,0 +1,67 @@
+name: 🍎 macOS Builds
+on:
+  workflow_call:
+
+# Global Settings
+env:
+  # Used for the cache key. Add version suffix to force clean build.
+  GODOT_BASE_BRANCH: master
+  SCONSFLAGS: verbose=yes
+  SCONS_CACHE: ${{ github.workspace }}/.scons_cache/
+
+concurrency:
+  group: ci-${{ github.actor }}-${{ github.head_ref || github.run_number }}-${{ github.ref }}-macos
+  cancel-in-progress: true
+
+jobs:
+  build-macos:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        target: [editor, template_release]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Restore build cache
+        uses: ./.github/actions/cache-restore
+        with:
+          platform: macos
+          arch: universal
+          float-precision: 'single'
+          build-target-type: ${{ matrix.target }}
+        continue-on-error: true
+
+      - name: Setup Python and SCons
+        uses: ./.github/actions/build-deps
+      
+      - name: Compilation (x86-64)
+        uses: ./.github/actions/build-project
+        with:
+          platform: macos
+          arch: x86_64
+          float-precision: 'single'
+          build-target-type: ${{ matrix.target }}
+          scons-flags: ${{ env.SCONSFLAGS }}
+      
+      - name: Compilation (arm64)
+        uses: ./.github/actions/build-project
+        with:
+          platform: macos
+          arch: arm64
+          float-precision: 'single'
+          build-target-type: ${{ matrix.target }}
+          scons-flags: ${{ env.SCONSFLAGS }}
+      
+      - name: Save build cache
+        uses: ./.github/actions/cache-save
+        with:
+          platform: macos
+          arch: universal
+          float-precision: 'single'
+          build-target-type: ${{ matrix.target }}

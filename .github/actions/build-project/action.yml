@@ -1,0 +1,40 @@
+name: Build project
+description: Build with the provided options.
+
+inputs:
+  platform:
+    required: true
+    description: Target platform.
+  arch:
+    required: true
+    description: Target architecture (x86_64, arm64, universal).
+  float-precision:
+    default: 'single'
+    description: Float precision (single or double).
+  build-target-type:
+    default: editor
+    description: Build type (editor, template_debug, template_release).
+  scons-flags:
+    required: false
+    default: ''
+    description: Additional SCons flags. 
+  scons-cache:
+    description: The SCons cache path.
+    default: '.scons_cache/'
+  scons-cache-limit:
+    description: The SCons cache size limit.
+    # actions/cache has 10 GiB limit, and GitHub runners have a 14 GiB disk.
+    # Limit to 7 GiB to avoid having the extracted cache fill the disk.
+    default: 7
+
+runs:
+  using: composite
+  steps:
+    - name: SCons Build
+      shell: sh
+      env:
+        SCONSFLAGS: ${{ inputs.sconsflags }}
+      run: |
+        echo "Building with flags:" platform=${{ inputs.platform }} arch=${{ inputs.arch }} target=${{ inputs.build-target-type }} ${{ env.SCONSFLAGS }}
+
+        scons platform=${{ inputs.platform }} arch=${{ inputs.arch }} target=${{ inputs.build-target-type }} ${{ env.SCONSFLAGS }}
