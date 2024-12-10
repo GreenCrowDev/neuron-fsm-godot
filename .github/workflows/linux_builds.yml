@@ -1,0 +1,51 @@
+name: 🐧 Linux Builds
+
+on: [workflow_call]
+
+# Global Settings
+env:
+  # Used for the cache key. Add version suffix to force clean build.
+  GODOT_BASE_BRANCH: master
+  SCONSFLAGS: verbose=yes
+
+concurrency:
+  group: ci-${{ github.actor }}-${{ github.head_ref || github.run_number }}-${{ github.ref }}-linux
+  cancel-in-progress: true
+
+jobs:
+  build-linux:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        target: [editor, template_release]
+        cpp_compiler: [g++, clang++]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Restore build cache
+        uses: ./.github/actions/cache-restore
+        with:
+          cache-name: ${{ matrix.cache-name }}
+        continue-on-error: true
+
+      - name: Setup Python and SCons
+        uses: ./.github/actions/build-deps
+
+      - name: Install CMake
+        run: sudo apt-get install -y cmake
+      
+      - name: Compilation
+        uses: ./.github/actions/build-project
+        with:
+          sconsflags: ${{ env.SCONSFLAGS }}
+          platform: linux
+          target: ${{ matrix.target }}
+      
+      - name: Save build cache
+        uses: ./.github/actions/cache-save
