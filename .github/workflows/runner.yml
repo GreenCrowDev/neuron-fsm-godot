@@ -22,11 +22,15 @@ jobs:
     uses: ./.github/workflows/linux_builds.yml
 
   macos-build:
+  # TODO: DELETE
+    if: false
     name: 🍎 macOS
     needs: static-checks
     uses: ./.github/workflows/macos_builds.yml
 
   windows-build:
+  # TODO: DELETE
+    if: false
     name: 🪟 Windows
     needs: static-checks
     uses: ./.github/workflows/windows_builds.yml

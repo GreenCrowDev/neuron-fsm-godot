@@ -51,3 +51,8 @@ build
 *.exp
 *.pdb
 *.ilk
+
+# TODO: DELETE
+# GdUnit4
+/demo/addons/gdUnit4/
+GdUnitRunner.cfg
