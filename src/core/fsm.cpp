@@ -38,9 +38,9 @@ void FSM::register_state(const String &p_name, const Ref<FSMState> &p_state) {
 	NFSMG_ASSERT_RETURN_MSG(!fsm.is_locked(), "States cannot be registered while the FSM is locked.");
 	NFSMG_ASSERT_RETURN_MSG(!p_name.is_empty(), "State name cannot be empty.");
 	NFSMG_ASSERT_RETURN_MSG(!p_state.is_null(), "State cannot be null.");
-	NFSMG_ASSERT_RETURN_MSG(!state_map.has(p_name), ("State '" + to_std_string(p_name) + "' is already registered.").c_str());
 
-	state_map[p_name] = p_state;
+	Ref<FSMState> map_state = state_map.get_or_add(p_name, p_state);
+	NFSMG_ASSERT_RETURN_MSG(map_state == p_state, ("State '" + to_std_string(p_name) + "' is already registered.").c_str());
 
 	std::shared_ptr<nfsm::State> state = std::make_shared<nfsm::State>();
 	state->add_on_enter_callback(to_std_string(p_name), [p_state]() { p_state->emit_signal("on_enter"); });
@@ -52,9 +52,9 @@ void FSM::register_state(const String &p_name, const Ref<FSMState> &p_state) {
 
 Ref<FSMState> FSM::get_state(const String &p_name) {
 	NFSMG_ASSERT_RETURN_V_MSG(!p_name.is_empty(), Ref<FSMState>(), "State name cannot be empty.");
-	NFSMG_ASSERT_RETURN_V_MSG(state_map.has(p_name), Ref<FSMState>(), ("State '" + to_std_string(p_name) + "' does not exist.").c_str());
-
-	return state_map[p_name];
+	Ref<FSMState> state = state_map.get(p_name, Ref<FSMState>());
+	NFSMG_ASSERT_RETURN_V_MSG(!state.is_null(), Ref<FSMState>(), ("State '" + to_std_string(p_name) + "' does not exist.").c_str());
+	return state;
 }
 
 void FSM::add_transition(const String &p_state, const String &p_event, const String &p_target) {
