@@ -15,7 +15,7 @@ void FSM::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_starting_state", "name"), &FSM::set_starting_state);
 	ClassDB::bind_method(D_METHOD("get_current_state_name"), &FSM::get_current_state_name);
 	ClassDB::bind_method(D_METHOD("get_current_state"), &FSM::get_current_state);
-	ClassDB::bind_method(D_METHOD("change_state", "state"), &FSM::change_state);
+	ClassDB::bind_method(D_METHOD("change_state", "state", "silent"), &FSM::change_state, DEFVAL(false));
 
 	ClassDB::bind_method(D_METHOD("start"), &FSM::start);
 	ClassDB::bind_method(D_METHOD("stop", "silent"), &FSM::stop, DEFVAL(false));
