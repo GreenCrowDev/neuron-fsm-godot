@@ -35,6 +35,7 @@ void FSM::_bind_methods() {
 }
 
 void FSM::register_state(const String &p_name, const Ref<FSMState> &p_state) {
+	NFSMG_ASSERT_RETURN_MSG(!fsm.is_locked(), "States cannot be registered while the FSM is locked.");
 	NFSMG_ASSERT_RETURN_MSG(!p_name.is_empty(), "State name cannot be empty.");
 	NFSMG_ASSERT_RETURN_MSG(!p_state.is_null(), "State cannot be null.");
 	NFSMG_ASSERT_RETURN_MSG(!state_map.has(p_name), ("State '" + to_std_string(p_name) + "' is already registered.").c_str());
