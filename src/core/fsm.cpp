@@ -51,7 +51,7 @@ void FSM::register_state(const String &p_name, const Ref<FSMState> &p_state) {
 
 Ref<FSMState> FSM::get_state(const String &p_name) {
 	NFSMG_ASSERT_RETURN_V_MSG(!p_name.is_empty(), Ref<FSMState>(), "State name cannot be empty.");
-	NFSM_ASSERT_RETURN_V_MSG(state_map.has(p_name), Ref<FSMState>(), ("State '" + to_std_string(p_name) + "' does not exist.").c_str());
+	NFSMG_ASSERT_RETURN_V_MSG(state_map.has(p_name), Ref<FSMState>(), ("State '" + to_std_string(p_name) + "' does not exist.").c_str());
 
 	return state_map[p_name];
 }
@@ -66,13 +66,13 @@ void FSM::add_transition(const String &p_state, const String &p_event, const Str
 
 String FSM::get_starting_state_name() const {
 	auto result = fsm.get_starting_state_name();
-	NFSM_ASSERT_RETURN_V_MSG(result, String(), "Starting state name does not exist.");
+	NFSMG_ASSERT_RETURN_V_MSG(result, String(), "Starting state name does not exist.");
 	return result.value().c_str();
 }
 
 Ref<FSMState> FSM::get_starting_state() const {
 	auto result = fsm.get_starting_state_name();
-	NFSM_ASSERT_RETURN_V_MSG(result, Ref<FSMState>(), "Starting state name does not exist.");
+	NFSMG_ASSERT_RETURN_V_MSG(result, Ref<FSMState>(), "Starting state name does not exist.");
 	return state_map[result.value().c_str()];
 }
 
@@ -84,13 +84,13 @@ void FSM::set_starting_state(const String &p_name) {
 
 String FSM::get_current_state_name() const {
 	auto result = fsm.get_current_state_name();
-	NFSM_ASSERT_RETURN_V_MSG(result, String(), "Current state name does not exist.");
+	NFSMG_ASSERT_RETURN_V_MSG(result, String(), "Current state name does not exist.");
 	return result.value().c_str();
 }
 
 Ref<FSMState> FSM::get_current_state() const {
 	auto result = fsm.get_current_state_name();
-	NFSM_ASSERT_RETURN_V_MSG(result, Ref<FSMState>(), "Current state name does not exist.");
+	NFSMG_ASSERT_RETURN_V_MSG(result, Ref<FSMState>(), "Current state name does not exist.");
 	return state_map[result.value().c_str()];
 }
 
