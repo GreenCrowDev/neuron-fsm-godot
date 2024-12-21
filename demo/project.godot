@@ -15,6 +15,14 @@ run/main_scene="res://scenes/traffic_light_demo.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
+
+[gdunit4]
+
+settings/common/update_notification_enabled=false
+
 [rendering]
 
 renderer/rendering_method="mobile"
