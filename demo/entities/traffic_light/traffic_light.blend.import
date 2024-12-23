@@ -35,27 +35,27 @@ _subresources={
 "materials": {
 "cartoon_metal": {
 "use_external/enabled": true,
-"use_external/path": "res://entities/traffic_light/cartoon_metal.tres"
+"use_external/path": "res://entities/traffic_light/materials/cartoon_metal.tres"
 },
 "dark_paint": {
 "use_external/enabled": true,
-"use_external/path": "res://entities/traffic_light/dark_paint.tres"
+"use_external/path": "res://entities/traffic_light/materials/dark_paint.tres"
 },
 "green_emission": {
 "use_external/enabled": true,
-"use_external/path": "res://entities/traffic_light/green_emission.tres"
+"use_external/path": "res://entities/traffic_light/materials/green_emission.tres"
 },
 "red_emission": {
 "use_external/enabled": true,
-"use_external/path": "res://entities/traffic_light/red_emission.tres"
+"use_external/path": "res://entities/traffic_light/materials/red_emission.tres"
 },
 "yellow_emission": {
 "use_external/enabled": true,
-"use_external/path": "res://entities/traffic_light/yellow_emission.tres"
+"use_external/path": "res://entities/traffic_light/materials/yellow_emission.tres"
 },
 "yellow_paint": {
 "use_external/enabled": true,
-"use_external/path": "res://entities/traffic_light/yellow_paint.tres"
+"use_external/path": "res://entities/traffic_light/materials/yellow_paint.tres"
 }
 }
 }
