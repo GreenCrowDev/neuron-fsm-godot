@@ -33,7 +33,7 @@ runs:
     - name: SCons Build
       shell: sh
       env:
-        SCONSFLAGS: ${{ inputs.sconsflags }}
+        SCONSFLAGS: ${{ inputs.scons-flags }}
       run: |
         echo "Building with flags:" platform=${{ inputs.platform }} arch=${{ inputs.arch }} target=${{ inputs.build-target-type }} ${{ env.SCONSFLAGS }}
 
