@@ -48,7 +48,7 @@ jobs:
           arch: x86_64
           float-precision: 'single'
           build-target-type: ${{ matrix.target }}
-          scons-flags: ${{ env.SCONSFLAGS }} ${{ matrix.cpp_compiler == 'llvm' && 'use_llvm=yes' || ''}}
+          scons-flags: ${{ env.SCONSFLAGS }} ${{ matrix.cpp_compiler == 'llvm' && 'use_llvm=yes' || '' }} ${{ matrix.target == 'editor' && 'dev_build=yes' || '' }}
 
       - name: Save build cache
         uses: ./.github/actions/cache-save
@@ -57,3 +57,13 @@ jobs:
           arch: x86_64
           float-precision: 'single'
           build-target-type: ${{ matrix.target }}
+
+      - name: Test with GdUnit4
+        if: ${{ matrix.target == 'editor' }}
+        uses: MikeSchulze/gdUnit4-action@v1.1.1
+        with:
+          godot-version: '4.3'
+          version: 'v4.5.0'
+          project_dir: '${{ github.workspace }}/demo/'
+          paths: 'res://test'
+          upload-report: false
