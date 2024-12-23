@@ -6,29 +6,38 @@ reloadable = true
 
 [libraries]
 
-macos.debug = "res://addons/neuron_fsm/neuron_fsm.macos.editor.dev.framework"
-macos.release = "res://addons/neuron_fsm/neuron_fsm.macos.template_release.framework"
-ios.debug = "res://addons/neuron_fsm/neuron_fsm.ios.editor.dev.xcframework"
-ios.release = "res://addons/neuron_fsm/neuron_fsm.ios.template_release.xcframework"
-windows.debug.x86_32 = "res://addons/neuron_fsm/neuron_fsm.windows.editor.dev.x86_32.dll"
-windows.release.x86_32 = "res://addons/neuron_fsm/neuron_fsm.windows.template_release.x86_32.dll"
-windows.debug.x86_64 = "res://addons/neuron_fsm/neuron_fsm.windows.editor.dev.x86_64.dll"
-windows.release.x86_64 = "res://addons/neuron_fsm/neuron_fsm.windows.template_release.x86_64.dll"
-linux.debug.x86_64 = "res://addons/neuron_fsm/neuron_fsm.linux.editor.dev.x86_64.so"
-linux.release.x86_64 = "res://addons/neuron_fsm/neuron_fsm.linux.template_release.x86_64.so"
-linux.debug.arm64 = "res://addons/neuron_fsm/neuron_fsm.linux.editor.dev.arm64.so"
-linux.release.arm64 = "res://addons/neuron_fsm/neuron_fsm.linux.template_release.arm64.so"
-linux.debug.rv64 = "res://addons/neuron_fsm/neuron_fsm.linux.editor.dev.rv64.so"
-linux.release.rv64 = "res://addons/neuron_fsm/neuron_fsm.linux.template_release.rv64.so"
-android.debug.x86_64 = "res://addons/neuron_fsm/neuron_fsm.android.editor.dev.x86_64.so"
-android.release.x86_64 = "res://addons/neuron_fsm/neuron_fsm.android.template_release.x86_64.so"
-android.debug.arm64 = "res://addons/neuron_fsm/neuron_fsm.android.editor.dev.arm64.so"
-android.release.arm64 = "res://addons/neuron_fsm/neuron_fsm.android.template_release.arm64.so"
+macos.debug = "res://addons/neuron_fsm/macos.framework/libneuron_fsm.macos.editor"
+macos.release = "res://addons/neuron_fsm/macos.framework/libneuron_fsm.macos.template_release"
+
+ios.debug = "res://addons/neuron_fsm/ios.framework/libneuron_fsm.ios.editor"
+ios.release = "res://addons/neuron_fsm/ios.framework/libneuron_fsm.ios.template_release"
+
+windows.debug.x86_32 = "res://addons/neuron_fsm/libneuron_fsm.windows.editor.dev.x86_32.dll"
+windows.release.x86_32 = "res://addons/neuron_fsm/libneuron_fsm.windows.template_release.x86_32.dll"
+
+windows.debug.x86_64 = "res://addons/neuron_fsm/libneuron_fsm.windows.editor.dev.x86_64.dll"
+windows.release.x86_64 = "res://addons/neuron_fsm/libneuron_fsm.windows.template_release.x86_64.dll"
+
+linux.debug.x86_64 = "res://addons/neuron_fsm/libneuron_fsm.linux.editor.dev.x86_64.so"
+linux.release.x86_64 = "res://addons/neuron_fsm/libneuron_fsm.linux.template_release.x86_64.so"
+
+linux.debug.arm64 = "res://addons/neuron_fsm/libneuron_fsm.linux.editor.dev.arm64.so"
+linux.release.arm64 = "res://addons/neuron_fsm/libneuron_fsm.linux.template_release.arm64.so"
+
+linux.debug.rv64 = "res://addons/neuron_fsm/libneuron_fsm.linux.editor.dev.rv64.so"
+linux.release.rv64 = "res://addons/neuron_fsm/libneuron_fsm.linux.template_release.rv64.so"
+
+android.debug.x86_64 = "res://addons/neuron_fsm/libneuron_fsm.android.editor.dev.x86_64.so"
+android.release.x86_64 = "res://addons/neuron_fsm/libneuron_fsm.android.template_release.x86_64.so"
+
+android.debug.arm64 = "res://addons/neuron_fsm/libneuron_fsm.android.editor.dev.arm64.so"
+android.release.arm64 = "res://addons/neuron_fsm/libneuron_fsm.android.template_release.arm64.so"
 
 [dependencies]
+
 ios.debug = {
-    "res://addons/neuron_fsm/libgodot-cpp.ios.editor.dev.xcframework": ""
+    "res://addons/neuron_fsm/ios.framework/libgodot-cpp.ios.editor.dev.xcframework": ""
 }
 ios.release = {
-    "res://addons/neuron_fsm/libgodot-cpp.ios.template_release.xcframework": ""
+    "res://addons/neuron_fsm/ios.framework/libgodot-cpp.ios.template_release.xcframework": ""
 }
