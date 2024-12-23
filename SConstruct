@@ -32,25 +32,25 @@ sources += Glob("src/util/io/*.cpp")
 
 if env_fsm["platform"] == "macos":
     library = env_fsm.SharedLibrary(
-        "demo/addons/neuron_fsm/neuron_fsm.{}.{}.framework/neuron_fsm.{}.{}".format(
-            env_fsm["platform"], env_fsm["target"], env_fsm["platform"], env_fsm["target"]
+        "demo/addons/neuron_fsm/{}.framework/libneuron_fsm.{}.{}".format(
+            env_fsm["platform"], env_fsm["platform"], env_fsm["target"]
         ),
         source=sources,
     )
 elif env_fsm["platform"] == "ios":
     if env_fsm["ios_simulator"]:
         library = env_fsm.StaticLibrary(
-            "demo/addons/neuron_fsm/neuron_fsm.{}.{}.simulator.a".format(env_fsm["platform"], env_fsm["target"]),
+            "demo/addons/neuron_fsm/ios.framework/libneuron_fsm.{}.{}.simulator".format(env_fsm["platform"], env_fsm["target"]),
             source=sources,
         )
     else:
         library = env_fsm.StaticLibrary(
-            "demo/addons/neuron_fsm/neuron_fsm.{}.{}.a".format(env_fsm["platform"], env_fsm["target"]),
+            "demo/addons/neuron_fsm/ios.framework/libneuron_fsm.{}.{}".format(env_fsm["platform"], env_fsm["target"]),
             source=sources,
         )
 else:
     library = env_fsm.SharedLibrary(
-        "demo/addons/neuron_fsm/neuron_fsm{}{}".format(env_fsm["suffix"], env_fsm["SHLIBSUFFIX"]),
+        "demo/addons/neuron_fsm/libneuron_fsm{}{}".format(env_fsm["suffix"], env_fsm["SHLIBSUFFIX"]),
         source=sources,
     )
 
