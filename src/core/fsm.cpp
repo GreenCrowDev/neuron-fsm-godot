@@ -26,6 +26,7 @@ void FSM::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("lock"), &FSM::lock);
 	ClassDB::bind_method(D_METHOD("unlock"), &FSM::unlock);
 
+	ClassDB::bind_method(D_METHOD("physics_tick", "delta"), &FSM::physics_tick);
 	ClassDB::bind_method(D_METHOD("tick", "delta"), &FSM::tick);
 
 	ClassDB::bind_method(D_METHOD("process_event", "event"), &FSM::process_event);
@@ -126,6 +127,15 @@ void FSM::lock() {
 
 void FSM::unlock() {
 	fsm.unlock();
+}
+
+void FSM::physics_tick(double p_delta) const {
+	NFSMG_ASSERT_RETURN_MSG(is_locked(), "FSM is not locked.");
+	NFSMG_ASSERT_RETURN_MSG(is_running(), "FSM is not running.");
+
+	auto state = get_current_state();
+	NFSMG_ASSERT_RETURN_MSG(state.is_valid(), "No current state is set.");
+	state->emit_signal("on_physics_process", p_delta);
 }
 
 void FSM::tick(double p_delta) const {

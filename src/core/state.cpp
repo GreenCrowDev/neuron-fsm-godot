@@ -6,6 +6,7 @@ using namespace godot::nfsmg;
 
 void FSMState::_bind_methods() {
 	ADD_SIGNAL(MethodInfo("on_enter"));
+	ADD_SIGNAL(MethodInfo("on_physics_process", PropertyInfo(Variant::FLOAT, "delta")));
 	ADD_SIGNAL(MethodInfo("on_process", PropertyInfo(Variant::FLOAT, "delta")));
 	ADD_SIGNAL(MethodInfo("on_exit"));
 }
