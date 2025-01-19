@@ -34,6 +34,7 @@ public:
 	void lock();
 	void unlock();
 
+	void physics_tick(double p_delta) const;
 	void tick(double p_delta) const;
 
 	void process_event(const String &p_event);
